@@ -150,6 +150,14 @@ export interface Wallet {
   name: string;
   paymentAddr: string;
   stakingAddr: string;
+  payment:{
+    skey:string,
+    vkey:string,
+  },
+  stake:{
+    skey:string,
+    vkey:string,
+  }
   balance: () => {
     utxo: Utxo[];
     value: any;
