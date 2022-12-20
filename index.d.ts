@@ -188,7 +188,7 @@ export interface TxIn {
 export interface TxOut {
   address: string;
   value: any;
-  datumHash: string;
+  datumHash?: string;
 }
 
 export interface TxInCollateral {
