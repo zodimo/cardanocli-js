@@ -178,11 +178,11 @@ export interface AddressInfo {
 
 export interface TxIn {
   txHash: string;
-  txId: string;
+  txId: number;
   script?: any;
   datum?: any;
   redeemer?: any;
-  executionUnits: any;
+  executionUnits?: any;
 }
 
 export interface TxOut {
