@@ -357,7 +357,7 @@ class CardanocliJs {
     const stakeScript = options.stakeScript
       ? `--stake-script-file ${jsonToPath(this.dir, options.stakeScript)}`
       : "";
-
+    createPathIfNotExists(`${this.dir}/priv/wallet/${account}`)
     execSync(`${this.cliPath} address build \
                     ${paymentVkey} \
                     ${stakeVkey} \
