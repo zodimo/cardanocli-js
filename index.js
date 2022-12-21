@@ -543,6 +543,7 @@ class CardanocliJs {
       );
       return response.then((res) => res.text());
     }
+    createPathIfNotExists(`${this.dir}/priv/wallet/${account}`)
     execSync(`${this.cliPath} stake-address registration-certificate \
                         --staking-verification-key-file ${this.dir}/priv/wallet/${account}/${account}.stake.vkey \
                         --out-file ${this.dir}/priv/wallet/${account}/${account}.stake.cert
@@ -562,6 +563,7 @@ class CardanocliJs {
       );
       return response.then((res) => res.text());
     }
+    createPathIfNotExists(`${this.dir}/priv/wallet/${account}`)
     execSync(`${this.cliPath} stake-address deregistration-certificate \
                         --staking-verification-key-file ${this.dir}/priv/wallet/${account}/${account}.stake.vkey \
                         --out-file ${this.dir}/priv/wallet/${account}/${account}.stake.cert
@@ -582,6 +584,7 @@ class CardanocliJs {
       );
       return response.then((res) => res.text());
     }
+    createPathIfNotExists(`${this.dir}/priv/wallet/${account}`)
     execSync(`${this.cliPath} stake-address delegation-certificate \
                         --staking-verification-key-file ${this.dir}/priv/wallet/${account}/${account}.stake.vkey \
                         --stake-pool-id ${poolId} \
@@ -669,6 +672,7 @@ class CardanocliJs {
       let response = fetch(`${this.httpProvider}/${poolName}/nodeIssueOpCert`);
       return response.then((res) => res.text());
     }
+    createPathIfNotExists(`${this.dir}/priv/pool/${poolName}`)
     execSync(`${this.cliPath} node issue-op-cert \
                         --kes-verification-key-file ${
                           this.dir
@@ -813,6 +817,7 @@ class CardanocliJs {
 
     let owners = ownerToString(options.owners);
     let relays = relayToString(options.relays);
+    createPathIfNotExists(`${this.dir}/priv/pool/${poolName}`)
     execSync(`${this.cliPath} stake-pool registration-certificate \
                 --cold-verification-key-file ${this.dir}/priv/pool/${poolName}/${poolName}.node.vkey \
                 --vrf-verification-key-file ${this.dir}/priv/pool/${poolName}/${poolName}.vrf.vkey \
@@ -843,6 +848,7 @@ class CardanocliJs {
       );
       return response.then((res) => res.text());
     }
+    createPathIfNotExists(`${this.dir}/priv/pool/${poolName}`)
     execSync(`${this.cliPath} stake-pool deregistration-certificate \
                 --cold-verification-key-file ${this.dir}/priv/pool/${poolName}/${poolName}.node.vkey \
                 --epoch ${epoch} \
