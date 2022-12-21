@@ -115,9 +115,7 @@ exports.txInToString = (dir, txInList, isCollateral) => {
           ? `--tx-in-script-file ${this.jsonToPath(dir, txIn.script)} `
           : ""
       } ${
-        txIn.datum
-          ? `--tx-in-datum-value '${JSON.stringify(txIn.datum)}' `
-          : ""
+        txIn.datum ? `--tx-in-datum-value '${JSON.stringify(txIn.datum)}' ` : ""
       } ${
         txIn.redeemer
           ? `--tx-in-redeemer-value '${JSON.stringify(txIn.redeemer)}' `
@@ -143,8 +141,7 @@ exports.txOutToString = (txOutList) => {
       if (asset == "lovelace") return;
       assetOutStr += `+${txOut.value[asset]} ${asset}`;
     });
-    if (assetOutStr)
-      result += `+"${assetOutStr.slice(1)}"`;
+    if (assetOutStr) result += `+"${assetOutStr.slice(1)}"`;
     txOut.datumHash && (result += ` --tx-out-datum-hash ${txOut.datumHash}`);
     result += " ";
   });
@@ -251,4 +248,10 @@ exports.multiAssetToString = (options) => {
   });
   result += `"`;
   return result;
+};
+
+exports.createPathIfNotExists = (path) => {
+  if (!fs.existsSync(path)) {
+    fs.mkdirSync(path, { recursive: true });
+  }
 };

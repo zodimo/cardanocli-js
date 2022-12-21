@@ -1,6 +1,7 @@
 const execSync =
   typeof window !== "undefined" || require("child_process").execSync;
 const fs = typeof window !== "undefined" || require("fs");
+const { mkdir } = require("fs");
 const {
   ownerToString,
   relayToString,
@@ -17,6 +18,7 @@ const {
   auxScriptToString,
   withdrawalToString,
   multiAssetToString,
+  createPathIfNotExists
 } = require("./helper");
 const fetch =
   typeof window !== "undefined" ? window.fetch : require("sync-fetch");
@@ -278,7 +280,7 @@ class CardanocliJs {
     let vkey = `${this.dir}/priv/wallet/${account}/${account}.payment.vkey`;
     let skey = `${this.dir}/priv/wallet/${account}/${account}.payment.skey`;
     fileExists([vkey, skey]);
-    execSync(`mkdir -p ${this.dir}/priv/wallet/${account}`);
+    createPathIfNotExists(`${this.dir}/priv/wallet/${account}`)
     execSync(`${this.cliPath} address key-gen \
                         --verification-key-file ${vkey} \
                         --signing-key-file ${skey}
@@ -303,7 +305,7 @@ class CardanocliJs {
     let vkey = `${this.dir}/priv/wallet/${account}/${account}.stake.vkey`;
     let skey = `${this.dir}/priv/wallet/${account}/${account}.stake.skey`;
     fileExists([vkey, skey]);
-    execSync(`mkdir -p ${this.dir}/priv/wallet/${account}`);
+    createPathIfNotExists(`${this.dir}/priv/wallet/${account}`)
     execSync(`${this.cliPath} stake-address key-gen \
                         --verification-key-file ${vkey} \
                         --signing-key-file ${skey}
@@ -324,6 +326,7 @@ class CardanocliJs {
       let response = fetch(`${this.httpProvider}/${account}/stakeAddressBuild`);
       return response.then((res) => res.text());
     }
+    createPathIfNotExists(`${this.dir}/priv/wallet/${account}`)
     execSync(`${this.cliPath} stake-address build \
                         --staking-verification-key-file ${this.dir}/priv/wallet/${account}/${account}.stake.vkey \
                         --out-file ${this.dir}/priv/wallet/${account}/${account}.stake.addr \
@@ -618,7 +621,7 @@ class CardanocliJs {
     let vkey = `${this.dir}/priv/pool/${poolName}/${poolName}.kes.vkey`;
     let skey = `${this.dir}/priv/pool/${poolName}/${poolName}.kes.skey`;
     fileExists([vkey, skey]);
-    execSync(`mkdir -p ${this.dir}/priv/pool/${poolName}`);
+    createPathIfNotExists(`${this.dir}/priv/pool/${poolName}`)
     execSync(`${this.cliPath} node key-gen-KES \
                         --verification-key-file ${vkey} \
                         --signing-key-file ${skey}
@@ -642,7 +645,7 @@ class CardanocliJs {
     let skey = `${this.dir}/priv/pool/${poolName}/${poolName}.node.skey`;
     let counter = `${this.dir}/priv/pool/${poolName}/${poolName}.node.counter`;
     fileExists([vkey, skey, counter]);
-    execSync(`mkdir -p ${this.dir}/priv/pool/${poolName}`);
+    createPathIfNotExists(`${this.dir}/priv/pool/${poolName}`)
     execSync(`${this.cliPath} node key-gen \
                         --cold-verification-key-file ${vkey} \
                         --cold-signing-key-file ${skey} \
@@ -698,7 +701,7 @@ class CardanocliJs {
     let vkey = `${this.dir}/priv/pool/${poolName}/${poolName}.vrf.vkey`;
     let skey = `${this.dir}/priv/pool/${poolName}/${poolName}.vrf.skey`;
     fileExists([vkey, skey]);
-    execSync(`mkdir -p ${this.dir}/priv/pool/${poolName}`);
+    createPathIfNotExists(`${this.dir}/priv/pool/${poolName}`)
     execSync(`${this.cliPath} node key-gen-VRF \
                         --verification-key-file ${vkey} \
                         --signing-key-file ${skey}
@@ -716,8 +719,7 @@ class CardanocliJs {
       );
       return response.then((res) => res.text());
     }
-
-    execSync(`mkdir -p ${this.dir}/priv/pool/${poolName}`);
+    createPathIfNotExists(`${this.dir}/priv/pool/${poolName}`)
     execSync(`${this.cliPath} node new-counter \
                         --cold-verification-key-file ${this.dir}/priv/pool/${poolName}/${poolName}.node.vkey \
                         --counter-value ${counter} \
